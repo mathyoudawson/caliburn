@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class Pod extends React.Component {
+  render(){
+    return(
+      <p>pod</p>
+    );
+  }
 }
 
-export default App;
+class Device extends React.Component {
+  render(){
+    return(
+      <p>Device</p>
+    );
+  }
+}
+
+class Vape extends React.Component {
+  render(){
+    return(
+        <div className="vape">
+          <h1>This is the vape</h1>
+          <Pod />
+          <Device />
+        </div>
+    );
+  }
+}
+
+export default Vape;
