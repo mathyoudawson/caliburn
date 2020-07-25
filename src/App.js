@@ -29,10 +29,20 @@ class Switch extends React.Component {
   async vapeInUse(node){
     let battery = this.props.battery;
     if(battery > 50) {
-
+      node.classList.add("vapeHighBattery");
+    await new Promise(r => setTimeout(r, 1000));
+      node.classList.remove("vapeHighBattery");
     }
-    node.classList.add("vapeInUse");
-    await new Promise(r => setTimeout(r, 2000));
+    else if (battery > 20) {
+      node.classList.add("vapeMidBattery");
+      await new Promise(r => setTimeout(r, 1000));
+      node.classList.remove("vapeMidBattery");
+    }
+    else {
+      node.classList.add("vapeLowBattery");
+      await new Promise(r => setTimeout(r, 1000));
+      node.classList.remove("vapeLowBattery");
+    }
   }
 
   async vapeDead(node){
@@ -54,7 +64,7 @@ class Switch extends React.Component {
     let switchElement = document.querySelector("#switch");
     let lightElement = document.querySelector(".light");
     switchElement.addEventListener("mousedown",  () => { this.vapeOn(lightElement); });
-    switchElement.addEventListener("mouseup",  () => { this.vapeOff(lightElement); });
+    // switchElement.addEventListener("mouseup",  () => { this.vapeOff(lightElement); });
   }
 
   render(){
@@ -82,7 +92,7 @@ class Vape extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      battery: 20,
+      battery: 60,
       juice: 100,
     };
     this.decrementBattery = this.decrementBattery.bind(this);

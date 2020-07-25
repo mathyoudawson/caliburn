@@ -25,11 +25,11 @@ code {
   background-color: grey;
 }
 
-.vapehighBattery {
+.vapeHighBattery {
   background-color: green !important;
 }
 .vapeMidBattery {
-  background-color: green !important;
+  background-color: blue !important;
 }
 .vapeLowBattery {
   background-color: red !important;
