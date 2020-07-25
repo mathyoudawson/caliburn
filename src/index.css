@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.device {
+  background-color: red;
+}
+
+.pod {
+  background-color: black;
+}
+
+.switch {
+  border: 1px solid black;
+}
+
+.vapeInUse {
+  background-color: green;
+}
