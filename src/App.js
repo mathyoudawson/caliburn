@@ -5,7 +5,6 @@ class Pod extends React.Component {
   render(){
     return(
       <div className="pod">
-        <p>pod</p>
       </div>
     );
   }
@@ -30,17 +29,17 @@ class Switch extends React.Component {
     let battery = this.props.battery;
     if(battery > 50) {
       node.classList.add("vapeHighBattery");
-    await new Promise(r => setTimeout(r, 1000));
+    await new Promise(r => setTimeout(r, 300));
       node.classList.remove("vapeHighBattery");
     }
     else if (battery > 20) {
       node.classList.add("vapeMidBattery");
-      await new Promise(r => setTimeout(r, 1000));
+      await new Promise(r => setTimeout(r, 300));
       node.classList.remove("vapeMidBattery");
     }
     else {
       node.classList.add("vapeLowBattery");
-      await new Promise(r => setTimeout(r, 1000));
+      await new Promise(r => setTimeout(r, 300));
       node.classList.remove("vapeLowBattery");
     }
   }
@@ -69,9 +68,10 @@ class Switch extends React.Component {
 
   render(){
     return(
-      <div id="switch" className="switch">
-        <div className="light">light</div>
-        <p>Switch</p>
+      <div className="flexCol">
+        <div className="light"></div>
+        <div id="switch" className="switch">
+        </div>
       </div>
     );
   }
@@ -81,8 +81,19 @@ class Device extends React.Component {
   render(){
     return(
       <div className="device">
-        <p>Device</p>
         <Switch decrementMethod={this.props.decrementMethod} battery={this.props.battery}/>
+        <div className="deviceText flexCol">
+          <p>
+            C<br />
+            A<br />
+            L<br />
+            I<br />
+            B<br />
+            U<br />
+            R<br />
+            N<br />
+          </p>
+        </div>
       </div>
     );
   }
@@ -110,8 +121,10 @@ class Vape extends React.Component {
           <h2><strong>Juice: </strong>{this.state.juice}</h2>
         </div>
         <div className="vape">
-          <Pod />
-          <Device decrementMethod={this.decrementBattery} battery={this.state.battery}/>
+          <div>
+            <Pod />
+            <Device decrementMethod={this.decrementBattery} battery={this.state.battery}/>
+          </div>
         </div>
       </div>
     );
