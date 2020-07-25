@@ -15,8 +15,33 @@ class Switch extends React.Component {
   vapeOn(node){
     // let switchElement = document.querySelector("#switch");
     // switchElement.classList.add("vapeInUse");
-    this.props.decrementMethod();
+      console.log(this.props)
+    if(this.props.battery <= 1){
+      console.log('ded')
+      this.vapeDead(node);
+    }
+    else {
+      this.props.decrementMethod();
+      this.vapeInUse(node);
+    }
+  }
+
+  async vapeInUse(node){
+    let battery = this.props.battery;
+    if(battery > 50) {
+
+    }
     node.classList.add("vapeInUse");
+    await new Promise(r => setTimeout(r, 2000));
+  }
+
+  async vapeDead(node){
+    for (let i = 0; i < 5; i++) {
+      node.classList.add("vapeLowBattery");
+      await new Promise(r => setTimeout(r, 200));
+      node.classList.remove("vapeLowBattery");
+      await new Promise(r => setTimeout(r, 200));
+    }
   }
 
   vapeOff(node){
@@ -27,13 +52,15 @@ class Switch extends React.Component {
 
   componentDidMount(){
     let switchElement = document.querySelector("#switch");
-    switchElement.addEventListener("mousedown",  () => { this.vapeOn(switchElement); });
-    switchElement.addEventListener("mouseup",  () => { this.vapeOff(switchElement); });
+    let lightElement = document.querySelector(".light");
+    switchElement.addEventListener("mousedown",  () => { this.vapeOn(lightElement); });
+    switchElement.addEventListener("mouseup",  () => { this.vapeOff(lightElement); });
   }
 
   render(){
     return(
       <div id="switch" className="switch">
+        <div className="light">light</div>
         <p>Switch</p>
       </div>
     );
@@ -45,7 +72,7 @@ class Device extends React.Component {
     return(
       <div className="device">
         <p>Device</p>
-        <Switch decrementMethod={this.props.decrementMethod}/>
+        <Switch decrementMethod={this.props.decrementMethod} battery={this.props.battery}/>
       </div>
     );
   }
@@ -55,7 +82,7 @@ class Vape extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      battery: 100,
+      battery: 20,
       juice: 100,
     };
     this.decrementBattery = this.decrementBattery.bind(this);
@@ -73,9 +100,8 @@ class Vape extends React.Component {
           <h2><strong>Juice: </strong>{this.state.juice}</h2>
         </div>
         <div className="vape">
-          <h1>This is the vape</h1>
           <Pod />
-          <Device decrementMethod={this.decrementBattery}/>
+          <Device decrementMethod={this.decrementBattery} battery={this.state.battery}/>
         </div>
       </div>
     );

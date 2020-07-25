@@ -22,8 +22,19 @@ code {
 
 .switch {
   border: 1px solid black;
+  background-color: grey;
 }
 
-.vapeInUse {
-  background-color: green;
+.vapehighBattery {
+  background-color: green !important;
+}
+.vapeMidBattery {
+  background-color: green !important;
+}
+.vapeLowBattery {
+  background-color: red !important;
+}
+
+.light {
+  background-color: gainsboro;
 }
