@@ -69,9 +69,8 @@ class Switch extends React.Component {
   render(){
     return(
       <div className="flexCol">
+        <div id="switch" className="switch"></div>
         <div className="light"></div>
-        <div id="switch" className="switch">
-        </div>
       </div>
     );
   }
