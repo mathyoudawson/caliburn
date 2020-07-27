@@ -23,8 +23,8 @@ class Switch extends React.Component {
     this.props.handleVapeOnChange(true);
     console.log(this.state)
 
-      this.props.decrementBattery();
-      this.vapeInUse(node);
+    this.props.decrementBattery();
+    this.vapeInUse(node);
   }
 
   async vapeInUse(node){
@@ -114,7 +114,7 @@ class Vape extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      battery: 10,
+      battery: 100,
       juice: 100,
     };
     this.decrementBattery = this.decrementBattery.bind(this);
