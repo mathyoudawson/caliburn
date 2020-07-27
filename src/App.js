@@ -19,20 +19,12 @@ class Switch extends React.Component {
   }
 
   vapeOn(node){
-    // let switchElement = document.querySelector("#switch");
-    // switchElement.classList.add("vapeInUse");
+    // the decrement logic and figuring out when vape is dead should live in vape or device
     this.props.handleVapeOnChange(true);
     console.log(this.state)
 
-    if(this.props.battery <= 1){
-      this.vapeDead(node);
-    }
-    else {
-      console.log('ded')
-
       this.props.decrementBattery();
       this.vapeInUse(node);
-    }
   }
 
   async vapeInUse(node){
@@ -47,10 +39,13 @@ class Switch extends React.Component {
       // await new Promise(r => setTimeout(r, 300));
       // node.classList.remove("vapeMidBattery");
     }
-    else {
+    else if (battery > 0) {
       node.classList.add("vapeLowBattery");
       // await new Promise(r => setTimeout(r, 300));
       // node.classList.remove("vapeLowBattery");
+    }
+    else {
+      this.vapeDead(node);
     }
   }
 
@@ -119,17 +114,16 @@ class Vape extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      battery: 60,
+      battery: 10,
       juice: 100,
     };
     this.decrementBattery = this.decrementBattery.bind(this);
     this.handleVapeOnChange = this.handleVapeOnChange.bind(this);
   }
 
-  // this is never breaking essentially. mousemove never kills this event. Need a way to kill the loop when mouse up. Perhaps passing around some sate but this should be an easy problme lol.
+  // this method needs to query the state of the vape every second. You can hold done the button and light wont change colour. Won't check for less than one battery
   decrementBattery(){
-    console.log('decrement');
-    if (this.state.vapeOn === false){ return };
+    if (this.state.vapeOn === false || this.state.battery <= 0){ return };
 
     this.setState({battery: this.state.battery - 1});
 
