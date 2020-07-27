@@ -11,16 +11,26 @@ class Pod extends React.Component {
 }
 
 class Switch extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      vapeOn: false,
+    };
+  }
+
   vapeOn(node){
     // let switchElement = document.querySelector("#switch");
     // switchElement.classList.add("vapeInUse");
-      console.log(this.props)
+    this.props.handleVapeOnChange(true);
+    console.log(this.state)
+
     if(this.props.battery <= 1){
-      console.log('ded')
       this.vapeDead(node);
     }
     else {
-      this.props.decrementMethod();
+      console.log('ded')
+
+      this.props.decrementBattery();
       this.vapeInUse(node);
     }
   }
@@ -29,22 +39,23 @@ class Switch extends React.Component {
     let battery = this.props.battery;
     if(battery > 50) {
       node.classList.add("vapeHighBattery");
-    await new Promise(r => setTimeout(r, 300));
-      node.classList.remove("vapeHighBattery");
+      // await new Promise(r => setTimeout(r, 300));
+      // node.classList.remove("vapeHighBattery");
     }
     else if (battery > 20) {
       node.classList.add("vapeMidBattery");
-      await new Promise(r => setTimeout(r, 300));
-      node.classList.remove("vapeMidBattery");
+      // await new Promise(r => setTimeout(r, 300));
+      // node.classList.remove("vapeMidBattery");
     }
     else {
       node.classList.add("vapeLowBattery");
-      await new Promise(r => setTimeout(r, 300));
-      node.classList.remove("vapeLowBattery");
+      // await new Promise(r => setTimeout(r, 300));
+      // node.classList.remove("vapeLowBattery");
     }
   }
 
   async vapeDead(node){
+
     for (let i = 0; i < 5; i++) {
       node.classList.add("vapeLowBattery");
       await new Promise(r => setTimeout(r, 200));
@@ -54,16 +65,19 @@ class Switch extends React.Component {
   }
 
   vapeOff(node){
+    this.props.handleVapeOnChange(false);
     // let switchElement = document.querySelector("#switch");
     // switchElement.classList.add("vapeInUse");
-    node.classList.remove("vapeInUse");
+    node.classList.remove("vapeHighBattery");
+    node.classList.remove("vapeMidBattery");
+    node.classList.remove("vapeLowBattery");
   }
 
   componentDidMount(){
     let switchElement = document.querySelector("#switch");
     let lightElement = document.querySelector(".light");
     switchElement.addEventListener("mousedown",  () => { this.vapeOn(lightElement); });
-    // switchElement.addEventListener("mouseup",  () => { this.vapeOff(lightElement); });
+    switchElement.addEventListener("mouseup",  () => { this.vapeOff(lightElement); });
   }
 
   render(){
@@ -80,7 +94,10 @@ class Device extends React.Component {
   render(){
     return(
       <div className="device">
-        <Switch decrementMethod={this.props.decrementMethod} battery={this.props.battery}/>
+        <Switch decrementBattery={this.props.decrementBattery}
+                battery={this.props.battery}
+                handleVapeOnChange={this.props.handleVapeOnChange}
+        />
         <div className="deviceText flexCol">
           <p>
             C<br />
@@ -106,10 +123,23 @@ class Vape extends React.Component {
       juice: 100,
     };
     this.decrementBattery = this.decrementBattery.bind(this);
+    this.handleVapeOnChange = this.handleVapeOnChange.bind(this);
   }
 
+  // this is never breaking essentially. mousemove never kills this event. Need a way to kill the loop when mouse up. Perhaps passing around some sate but this should be an easy problme lol.
   decrementBattery(){
+    console.log('decrement');
+    if (this.state.vapeOn === false){ return };
+
     this.setState({battery: this.state.battery - 1});
+
+    setTimeout(this.decrementBattery, 1000);
+  }
+
+  handleVapeOnChange(state){
+    console.log('change');
+    this.setState({vapeOn: state});
+
   }
 
   render(){
@@ -122,7 +152,10 @@ class Vape extends React.Component {
         <div className="vape">
           <div>
             <Pod />
-            <Device decrementMethod={this.decrementBattery} battery={this.state.battery}/>
+            <Device decrementBattery={this.decrementBattery}
+                    battery={this.state.battery}
+                    handleVapeOnChange={this.handleVapeOnChange}
+            />
           </div>
         </div>
       </div>
