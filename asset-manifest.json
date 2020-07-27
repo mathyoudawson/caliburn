@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/caliburn/static/css/main.58b98790.chunk.css",
+    "main.js": "/caliburn/static/js/main.e02af576.chunk.js",
+    "main.js.map": "/caliburn/static/js/main.e02af576.chunk.js.map",
+    "runtime-main.js": "/caliburn/static/js/runtime-main.31123c3e.js",
+    "runtime-main.js.map": "/caliburn/static/js/runtime-main.31123c3e.js.map",
+    "static/js/2.32b2a76d.chunk.js": "/caliburn/static/js/2.32b2a76d.chunk.js",
+    "static/js/2.32b2a76d.chunk.js.map": "/caliburn/static/js/2.32b2a76d.chunk.js.map",
+    "index.html": "/caliburn/index.html",
+    "precache-manifest.ba703777dfdeece1f7113162f66354fd.js": "/caliburn/precache-manifest.ba703777dfdeece1f7113162f66354fd.js",
+    "service-worker.js": "/caliburn/service-worker.js",
+    "static/css/main.58b98790.chunk.css.map": "/caliburn/static/css/main.58b98790.chunk.css.map",
+    "static/js/2.32b2a76d.chunk.js.LICENSE.txt": "/caliburn/static/js/2.32b2a76d.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.31123c3e.js",
+    "static/js/2.32b2a76d.chunk.js",
+    "static/css/main.58b98790.chunk.css",
+    "static/js/main.e02af576.chunk.js"
+  ]
+}
