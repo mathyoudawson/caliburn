@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import Charger from './Charger';
 
 class Pod extends React.Component {
   render(){
@@ -115,9 +116,12 @@ class Vape extends React.Component {
     this.state = {
       battery: 5,
       juice: 100,
+      charging: false,
     };
     this.useVape = this.useVape.bind(this);
     this.handleVapeOnChange = this.handleVapeOnChange.bind(this);
+    this.handleChargingOnChange = this.handleChargingOnChange.bind(this);
+    this.handleCharging = this.handleCharging.bind(this);
   }
 
   // this method needs to query the state of the vape every second. You can hold done the button and light wont change colour.
@@ -130,9 +134,22 @@ class Vape extends React.Component {
   }
 
   handleVapeOnChange(state){
-    console.log('change');
     this.setState({vapeOn: state});
+  }
 
+  handleChargingOnChange(charging) {
+    this.setState({charging: charging});
+    if (this.state.charging) {
+      this.handleCharging();
+    }
+  }
+
+  handleCharging() {
+    if(this.state.charging === false) { return };
+
+    this.setState({battery: this.state.battery + 1});
+
+    setTimeout(this.handleCharging, 3000);
   }
 
   vapeIsUnusable(){
@@ -156,6 +173,7 @@ class Vape extends React.Component {
             />
           </div>
         </div>
+        <Charger handleChargingOnChange={this.handleChargingOnChange}/>
       </div>
     );
   }

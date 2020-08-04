@@ -27,19 +27,19 @@ class Charger extends React.Component {
       portNode.classList.add("chargingPortInserted"); 
     }
 
+    this.props.handleChargingOnChange(!this.state.inserted);
     this.setState({inserted: !this.state.inserted});
   }
 
   render(){
     return(
-      <div id="charger" class="flexCol charger">
-        <div id="chargingPort" class="chargingPort"></div>
-        <div class="chargingPortCover"></div>
-        <div class="chargingCable">
+      <div id="charger" className="flexCol charger">
+        <div id="chargingPort" className="chargingPort"></div>
+        <div className="chargingPortCover"></div>
+        <div className="chargingCable">
         </div>
       </div>
     );
   }
 }
-
 export default Charger;
