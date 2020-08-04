@@ -133,6 +133,11 @@ class Vape extends React.Component {
     setTimeout(this.useVape, 1000);
   }
 
+  vapeIsUnusable(){
+    // might want to do something special when juice is 0, eg. black smoke if vapor is implemented
+    return (this.state.vapeOn === false || this.state.battery <= 0 || this.state.juice <= 0)
+  }
+
   handleVapeOnChange(state){
     this.setState({vapeOn: state});
   }
@@ -145,16 +150,15 @@ class Vape extends React.Component {
   }
 
   handleCharging() {
-    if(this.state.charging === false) { return };
+    if(this.vapeIsChargable()) { return };
 
     this.setState({battery: this.state.battery + 1});
 
     setTimeout(this.handleCharging, 3000);
   }
 
-  vapeIsUnusable(){
-    // might want to do something special when juice is 0, eg. black smoke if vapor is implemented
-    return (this.state.vapeOn === false || this.state.battery <= 0 || this.state.juice <= 0)
+  vapeIsChargable(){
+    return (this.state.charging === false || this.state.battery >= 100)
   }
 
   render(){
