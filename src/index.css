@@ -71,3 +71,30 @@ code {
   margin-right: 20px;
   margin-top: 10px;
 }
+
+.chargingCable, .chargingPortCover {
+  background-color: black;
+}
+
+.chargingCable {
+  padding: 10px;
+  padding-bottom: 100px;
+}
+
+.chargingPortCover {
+  padding: 25px;
+}
+
+.chargingPort {
+  background-color: lightgrey;
+  padding: 20px;
+}
+
+.charger {
+  margin-top: 50px;
+}
+
+.chargingPortInserted {
+  background-color: lightgrey;
+  padding: 5px 20px 5px 20px;
+}
