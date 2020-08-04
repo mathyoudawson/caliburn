@@ -21,10 +21,9 @@ class Switch extends React.Component {
   vapeOn(node){
     // the decrement logic and figuring out when vape is dead should live in vape or device
     this.props.handleVapeOnChange(true);
-    console.log(this.state)
 
-    this.props.decrementBattery();
     this.vapeInUse(node);
+    this.props.useVape();
   }
 
   async vapeInUse(node){
@@ -89,7 +88,7 @@ class Device extends React.Component {
   render(){
     return(
       <div className="device">
-        <Switch decrementBattery={this.props.decrementBattery}
+        <Switch useVape={this.props.useVape}
                 battery={this.props.battery}
                 handleVapeOnChange={this.props.handleVapeOnChange}
         />
@@ -114,26 +113,31 @@ class Vape extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      battery: 100,
+      battery: 5,
       juice: 100,
     };
-    this.decrementBattery = this.decrementBattery.bind(this);
+    this.useVape = this.useVape.bind(this);
     this.handleVapeOnChange = this.handleVapeOnChange.bind(this);
   }
 
-  // this method needs to query the state of the vape every second. You can hold done the button and light wont change colour. Won't check for less than one battery
-  decrementBattery(){
-    if (this.state.vapeOn === false || this.state.battery <= 0){ return };
+  // this method needs to query the state of the vape every second. You can hold done the button and light wont change colour.
+  useVape(){
+    if (this.vapeIsUnusable()) { return };
 
-    this.setState({battery: this.state.battery - 1});
+    this.setState({battery: this.state.battery - 1, juice: this.state.juice - 0.5});
 
-    setTimeout(this.decrementBattery, 1000);
+    setTimeout(this.useVape, 1000);
   }
 
   handleVapeOnChange(state){
     console.log('change');
     this.setState({vapeOn: state});
 
+  }
+
+  vapeIsUnusable(){
+    // might want to do something special when juice is 0, eg. black smoke if vapor is implemented
+    return (this.state.vapeOn === false || this.state.battery <= 0 || this.state.juice <= 0)
   }
 
   render(){
@@ -146,7 +150,7 @@ class Vape extends React.Component {
         <div className="vape">
           <div>
             <Pod />
-            <Device decrementBattery={this.decrementBattery}
+            <Device useVape={this.useVape}
                     battery={this.state.battery}
                     handleVapeOnChange={this.handleVapeOnChange}
             />
