@@ -114,7 +114,7 @@ class Vape extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      battery: 5,
+      battery: 100,
       juice: 100,
       charging: false,
     };
