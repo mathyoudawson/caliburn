@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "183ad7f7943463780aa275b64d76ee64",
+    "revision": "b2c2a1e1cb89d56922af25dc6cabf171",
     "url": "/caliburn/index.html"
   },
   {
-    "revision": "cfe1b0e49aaecf2527aa",
+    "revision": "54e753a75d18bb18a1ae",
     "url": "/caliburn/static/css/main.96004655.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/caliburn/static/js/2.0e02174d.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "cfe1b0e49aaecf2527aa",
-    "url": "/caliburn/static/js/main.d75a1fd5.chunk.js"
+    "revision": "54e753a75d18bb18a1ae",
+    "url": "/caliburn/static/js/main.bc33e64c.chunk.js"
   },
   {
     "revision": "d74eb317ff6a36834147",
