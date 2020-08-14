@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Charger from './Charger';
+// TODO: split larger componenets into different files (later)
 
 class Pod extends React.Component {
   render(){
@@ -19,6 +20,21 @@ class Switch extends React.Component {
     };
   }
 
+  // not working needs to be driven by vape charging logic or move that logic here?
+  async vapeIsCharging(node) {
+    if(this.props.charging) {
+      let colourClass = this.lightColorByBattery(100)
+      node.classList.add(colourClass);
+      setTimeout(1000);
+      node.classList.remove(colourClass);
+    }
+    else {
+      return;
+    }
+
+    setTimeout(this.vapeIsCharging(node), 1000);
+  }
+
   vapeOn(node){
     // the decrement logic and figuring out when vape is dead should live in vape or device
     this.props.handleVapeOnChange(true);
@@ -27,25 +43,27 @@ class Switch extends React.Component {
     this.props.useVape();
   }
 
-  async vapeInUse(node){
-    let battery = this.props.battery;
+  lightColourByBattery(battery){
     if(battery > 50) {
-      node.classList.add("vapeHighBattery");
-      // await new Promise(r => setTimeout(r, 300));
-      // node.classList.remove("vapeHighBattery");
+      return "vapeHighBattery";
     }
     else if (battery > 20) {
-      node.classList.add("vapeMidBattery");
-      // await new Promise(r => setTimeout(r, 300));
-      // node.classList.remove("vapeMidBattery");
-    }
-    else if (battery > 0) {
-      node.classList.add("vapeLowBattery");
-      // await new Promise(r => setTimeout(r, 300));
-      // node.classList.remove("vapeLowBattery");
+      return "vapeMidBattery";
     }
     else {
+      return "vapeLowBattery";
+    }
+  }
+
+  async vapeInUse(node){
+    let battery = this.props.battery;
+
+    // maybe this can live somewhere better. violates SR
+    if(battery <= 0) {
       this.vapeDead(node);
+    }
+    else {
+      node.classList.add(this.lightColourByBattery(battery));
     }
   }
 
@@ -73,6 +91,7 @@ class Switch extends React.Component {
     let lightElement = document.querySelector(".light");
     switchElement.addEventListener("mousedown",  () => { this.vapeOn(lightElement); });
     switchElement.addEventListener("mouseup",  () => { this.vapeOff(lightElement); });
+    this.vapeIsCharging(lightElement);
   }
 
   render(){
@@ -92,6 +111,7 @@ class Device extends React.Component {
         <Switch useVape={this.props.useVape}
                 battery={this.props.battery}
                 handleVapeOnChange={this.props.handleVapeOnChange}
+                charging={this.props.charging}
         />
         <div className="deviceText flexCol">
           <p>
@@ -114,7 +134,7 @@ class Vape extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      battery: 100,
+      battery: 1,
       juice: 100,
       charging: false,
     };
@@ -149,15 +169,18 @@ class Vape extends React.Component {
     }
   }
 
+  // TODO: flash lights when charging. need to look into callbacks to safely call a child's method from parents (should live in light)
   handleCharging() {
-    if(this.vapeIsChargable()) { return };
+    if(this.vapeIsUnchargable()) { return };
 
+    console.log(this.refs);
     this.setState({battery: this.state.battery + 1});
+    // call vaping logic here!
 
     setTimeout(this.handleCharging, 3000);
   }
 
-  vapeIsChargable(){
+  vapeIsUnchargable(){
     return (this.state.charging === false || this.state.battery >= 100)
   }
 
@@ -174,6 +197,7 @@ class Vape extends React.Component {
             <Device useVape={this.useVape}
                     battery={this.state.battery}
                     handleVapeOnChange={this.handleVapeOnChange}
+                    charging={this.state.charging}
             />
           </div>
         </div>
