@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import Charger from './Charger';
 // TODO: split larger componenets into different files (later)
@@ -20,19 +20,22 @@ class Switch extends React.Component {
     };
   }
 
-  // not working needs to be driven by vape charging logic or move that logic here?
   async vapeIsCharging(node) {
     if(this.props.charging) {
-      let colourClass = this.lightColorByBattery(100)
-      node.classList.add(colourClass);
-      setTimeout(1000);
-      node.classList.remove(colourClass);
+      let colourClass = this.lightColorByBattery(this.props.battery);
+      if(node.classList.contains(colourClass)) {
+        node.classList.remove(colourClass);
+      }
+      else {
+        node.classList.add(colourClass);
+      }
+      // setTimeout(1000);
     }
     else {
       return;
     }
 
-    setTimeout(this.vapeIsCharging(node), 1000);
+    // setTimeout(this.vapeIsCharging(node), 1000);
   }
 
   vapeOn(node){
@@ -43,7 +46,7 @@ class Switch extends React.Component {
     this.props.useVape();
   }
 
-  lightColourByBattery(battery){
+  lightColorByBattery(battery){
     if(battery > 50) {
       return "vapeHighBattery";
     }
@@ -63,7 +66,7 @@ class Switch extends React.Component {
       this.vapeDead(node);
     }
     else {
-      node.classList.add(this.lightColourByBattery(battery));
+      node.classList.add(this.lightColorByBattery(battery));
     }
   }
 
@@ -91,6 +94,10 @@ class Switch extends React.Component {
     let lightElement = document.querySelector(".light");
     switchElement.addEventListener("mousedown",  () => { this.vapeOn(lightElement); });
     switchElement.addEventListener("mouseup",  () => { this.vapeOff(lightElement); });
+  }
+
+  componentDidUpdate(){
+    let lightElement = document.querySelector(".light");
     this.vapeIsCharging(lightElement);
   }
 
