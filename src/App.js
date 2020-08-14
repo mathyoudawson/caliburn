@@ -16,12 +16,12 @@ class Switch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      vapeOn: false,
     };
   }
 
   async vapeIsCharging(node) {
-    if(this.props.charging) {
+    console.log(this.props.vapeOn);
+    if(this.props.charging && !this.props.vapeOn) {
       let colourClass = this.lightColorByBattery(this.props.battery);
       if(node.classList.contains(colourClass)) {
         node.classList.remove(colourClass);
@@ -119,6 +119,7 @@ class Device extends React.Component {
                 battery={this.props.battery}
                 handleVapeOnChange={this.props.handleVapeOnChange}
                 charging={this.props.charging}
+                vapeOn={this.props.vapeOn}
         />
         <div className="deviceText flexCol">
           <p>
@@ -141,9 +142,10 @@ class Vape extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      battery: 1,
+      battery: 100,
       juice: 100,
       charging: false,
+      vapeOn: false,
     };
     this.useVape = this.useVape.bind(this);
     this.handleVapeOnChange = this.handleVapeOnChange.bind(this);
@@ -166,6 +168,7 @@ class Vape extends React.Component {
   }
 
   handleVapeOnChange(state){
+    console.log(this.state.vapeOn);
     this.setState({vapeOn: state});
   }
 
@@ -180,7 +183,6 @@ class Vape extends React.Component {
   handleCharging() {
     if(this.vapeIsUnchargable()) { return };
 
-    console.log(this.refs);
     this.setState({battery: this.state.battery + 1});
     // call vaping logic here!
 
@@ -205,6 +207,7 @@ class Vape extends React.Component {
                     battery={this.state.battery}
                     handleVapeOnChange={this.handleVapeOnChange}
                     charging={this.state.charging}
+                    vapeOn={this.state.vapeOn}
             />
           </div>
         </div>
