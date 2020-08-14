@@ -21,8 +21,8 @@ class Switch extends React.Component {
 
   async vapeIsCharging(node) {
     console.log(this.props.vapeOn);
+    let colourClass = this.lightColorByBattery(this.props.battery);
     if(this.props.charging && !this.props.vapeOn) {
-      let colourClass = this.lightColorByBattery(this.props.battery);
       if(node.classList.contains(colourClass)) {
         node.classList.remove(colourClass);
       }
@@ -30,6 +30,9 @@ class Switch extends React.Component {
         node.classList.add(colourClass);
       }
       // setTimeout(1000);
+    }
+    else if(this.props.battery >= 100) {
+      node.classList.remove(colourClass);
     }
     else {
       return;
